@@ -15,5 +15,5 @@ class CdkStateMachineStack(Stack):
             self,
             "CdkStateMachineQueue",
             visibility_timeout=Duration.seconds(300),
-            props=sqs.QueueProps(removal_policy=RemovalPolicy.DESTROY),
+            removal_policy=RemovalPolicy.DESTROY,
         )
