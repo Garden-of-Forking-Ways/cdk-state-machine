@@ -1,0 +1,38 @@
+name: CDK-state-machine Deploy
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  deploy_aws:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials from Test account
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: ${{ secrets.GH_AWS_IAM_ROLE }}
+        aws-region: us-east-1
+    
+    - name: cdk synth
+      uses: youyo/aws-cdk-github-actions@v2
+      with:
+        cdk_subcommand: 'synth'
+    
+    - name: cdk diff
+      uses: youyo/aws-cdk-github-actions@v2
+      with:
+        cdk_subcommand: 'diff'
+        actions_comment: true
+    
+    - name: cdk deploy
+      uses: youyo/aws-cdk-github-actions@v2
+      with:
+        cdk_subcommand: 'deploy'
