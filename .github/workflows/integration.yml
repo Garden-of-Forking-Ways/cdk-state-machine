@@ -9,30 +9,6 @@ on:
       - "main"
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        python-version: [3.9]
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-      - name: Set Up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Display Python version
-        run: python -c "import sys; print(sys.version)"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -r requirements-dev.txt
-      - name: Run tests
-        run: pytest tests/
-
   cdk_verify:
     runs-on: ubuntu-latest
     permissions:
@@ -58,3 +34,27 @@ jobs:
       with:
         cdk_subcommand: 'diff'
         actions_comment: true
+
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.9]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Set Up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+      - name: Run tests
+        run: pytest tests/
