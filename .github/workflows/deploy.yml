@@ -21,17 +21,6 @@ jobs:
         role-to-assume: ${{ secrets.GH_AWS_IAM_ROLE }}
         aws-region: us-east-1
     
-    - name: cdk synth
-      uses: youyo/aws-cdk-github-actions@v2
-      with:
-        cdk_subcommand: 'synth'
-    
-    - name: cdk diff
-      uses: youyo/aws-cdk-github-actions@v2
-      with:
-        cdk_subcommand: 'diff'
-        actions_comment: true
-    
     - name: cdk deploy
       uses: youyo/aws-cdk-github-actions@v2
       with:
