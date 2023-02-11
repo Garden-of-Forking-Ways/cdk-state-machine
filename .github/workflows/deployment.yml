@@ -43,4 +43,4 @@ jobs:
     - name: Install CDK
       run: npm install -g aws-cdk
     - name: Run CDK verification
-      run: cdk deploy --app="python3 ${PWD}/app.py" --require-approval=never
+      run: cdk deploy --require-approval=never
