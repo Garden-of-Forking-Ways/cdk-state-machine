@@ -47,4 +47,4 @@ jobs:
     - name: Remove default config
       run: rm -rf ~/.aws/config
     - name: Run CDK verification
-      run: cdk synth
+      run: cdk -v synth
