@@ -43,4 +43,4 @@ jobs:
     - name: Install CDK
       run: npm install -g aws-cdk
     - name: Run CDK verification
-      run: cdk deploy --require-approval=never
+      run: cdk --role-arn ${{ secrets.GH_AWS_IAM_ROLE }} --require-approval=never deploy
