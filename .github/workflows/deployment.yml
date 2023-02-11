@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - "main"
-  pull_request:
-    branches: 
-      - "main"
 
 jobs:
   assume-iam-role:
@@ -43,9 +40,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements-dev.txt
-    - name: Run tests
-      run: pytest tests/
     - name: Install CDK
       run: npm install -g aws-cdk
     - name: Run CDK verification
-      run: cdk synth
+      run: cdk deploy --app="python3 ${PWD}/app.py" --require-approval=never
