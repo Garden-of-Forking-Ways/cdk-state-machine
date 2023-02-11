@@ -1,9 +1,6 @@
 name: CDK-state-machine CI Pre-Checks
 
 on:
-  push:
-    branches:
-      - "main"
   pull_request:
     branches: 
       - "main"
@@ -47,5 +44,7 @@ jobs:
       run: pytest tests/
     - name: Install CDK
       run: npm install -g aws-cdk
+    - name: Remove default config
+      run: rm -rf ~/.aws/config
     - name: Run CDK verification
       run: cdk synth
