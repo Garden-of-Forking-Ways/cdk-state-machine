@@ -42,5 +42,14 @@ jobs:
         pip install -r requirements-dev.txt
     - name: Install CDK
       run: npm install -g aws-cdk
-    - name: Run CDK verification
-      run: cdk --role-arn ${{ secrets.GH_AWS_IAM_ROLE }} --require-approval=never deploy $CDK_DEPLOY_ACCOUNT $CDK_DEPlOY_REGION
+    - name: cdk deploy
+      uses: youyo/aws-cdk-github-actions@v2
+      with:
+        cdk_subcommand: 'deploy'
+        cdk_stack: 'CdkStateMachineStack'
+        cdk_args: '--require-approval never'
+#    - name: Run CDK verification
+#      run: cdk --role-arn ${{ secrets.GH_AWS_IAM_ROLE }} --require-approval=never deploy $CDK_DEPLOY_ACCOUNT $CDK_DEPlOY_REGION
+      env:
+        CDK_DEPLOY_ACCOUNT: ${{ secrets.CDK_DEPLOY_ACCOUNT }}
+        CDK_DEPLOY_REGION: ${{ secrets.CDK_DEPLOY_REGION }}
