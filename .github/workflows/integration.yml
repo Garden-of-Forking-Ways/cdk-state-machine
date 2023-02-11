@@ -9,11 +9,14 @@ on:
       - "main"
 
 jobs:
-  cdk_verify:
+  assume-iam-role:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
+    strategy:
+      matrix:
+        python-version: [3.9]
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -23,38 +26,29 @@ jobs:
       with:
         role-to-assume: ${{ secrets.GH_AWS_IAM_ROLE }}
         aws-region: us-east-1
-    
-    - name: cdk synth
-      uses: youyo/aws-cdk-github-actions@v2
-      with:
-        cdk_subcommand: 'synth'
-    
-    - name: cdk diff
-      uses: youyo/aws-cdk-github-actions@v2
-      with:
-        cdk_subcommand: 'diff'
-        actions_comment: true
 
-#  test:
-#    runs-on: ubuntu-latest
-#
-#    strategy:
-#      matrix:
-#        python-version: [3.9]
-#
-#    steps:
-#      - name: Checkout repo
-#        uses: actions/checkout@v2
-#      - name: Set Up Python ${{ matrix.python-version }}
-#        uses: actions/setup-python@v2
-#        with:
-#          python-version: ${{ matrix.python-version }}
-#      - name: Display Python version
-#        run: python -c "import sys; print(sys.version)"
-#      - name: Install dependencies
-#        run: |
-#          python -m pip install --upgrade pip
-#          pip install -r requirements.txt
-#          pip install -r requirements-dev.txt
-#      - name: Run tests
-#        run: pytest tests/
+  python-cdk-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9]
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    - name: Set Up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Display Python version
+      run: python -c "import sys; print(sys.version)"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+    - name: Run tests
+      run: pytest tests/
+    - name: Install CDK
+      run: npm install -g aws-cdk
+    - name: Run CDK verification
+      run: cdk synth
