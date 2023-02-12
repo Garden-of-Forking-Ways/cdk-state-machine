@@ -6,7 +6,7 @@ on:
       - "main"
 
 jobs:
-  assume-iam-role:
+  deploy-cdk:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -46,6 +46,4 @@ jobs:
         cdk_args: '--require-approval never'
         actions_comment: false
       env:
-#        CDK_DEPLOY_ACCOUNT: ${{ CDK_DEPLOY_ACCOUNT }}
-#        CDK_DEPLOY_REGION: ${{ CDK_DEPLOY_REGION }}
         AWS_DEFAULT_REGION: 'us-east-1'
