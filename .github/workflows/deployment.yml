@@ -45,9 +45,7 @@ jobs:
         cdk_stack: 'CdkStateMachineStack'
         cdk_args: '--require-approval never'
         actions_comment: false
-#    - name: Run CDK verification
-#      run: cdk --role-arn ${{ secrets.GH_AWS_IAM_ROLE }} --require-approval=never deploy $CDK_DEPLOY_ACCOUNT $CDK_DEPlOY_REGION
       env:
-        CDK_DEPLOY_ACCOUNT: ${{ secrets.CDK_DEPLOY_ACCOUNT }}
-        CDK_DEPLOY_REGION: ${{ secrets.CDK_DEPLOY_REGION }}
+        CDK_DEPLOY_ACCOUNT: ${{ CDK_DEPLOY_ACCOUNT }}
+        CDK_DEPLOY_REGION: ${{ CDK_DEPLOY_REGION }}
         AWS_DEFAULT_REGION: 'us-east-1'
