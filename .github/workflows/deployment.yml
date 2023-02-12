@@ -1,4 +1,4 @@
-name: CDK-state-machine Destroy
+name: CDK-state-machine Deploy
 
 on:
   push:
