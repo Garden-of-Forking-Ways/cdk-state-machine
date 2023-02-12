@@ -1,4 +1,4 @@
-name: CDK-state-machine CI Pre-Checks
+name: CDK-state-machine Destroy
 
 on:
   push:
